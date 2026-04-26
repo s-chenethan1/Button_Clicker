@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Button clickers.io</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 900px;
+      padding: 20px 40px 40px;
+      background: #ffffff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    /* SECTION BOXES WITH UNIQUE COLORS */
+    .section-sound {
+      border: 2px solid #d3d3d3;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      background: #dff6ff; /* AQUA BLUE */
+    }
+
+    .section-visual {
+      border: 2px solid #d3d3d3;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      background: #ffe5d4; /* PEACH ORANGE */
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    /* CENTERED BUTTON ROWS */
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+      justify-content: center;
+    }
+
+    /* UNIFORM BUTTONS */
+    .btn {
+      width: 180px;
+      height: 55px;
+      padding: 0;
+      border: none;
+      border-radius: 6px;
+      color: #ffffff;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Button colors */
+    .btn-click-sound      { background: #ff9f43; }
+    .btn-high-beep        { background: #54a0ff; }
+    .btn-low-beep         { background: #10ac84; }
+    .btn-success-ding     { background: #00d2d3; }
+    .btn-error-buzz       { background: #ee5253; }
+    .btn-random-beep      { background: #576574; }
+    .btn-play-sound       { background: #1dd1a1; }
+
+    .btn-dark-mode        { background: #2e86de; }
+    .btn-shake            { background: #8395a7; }
+    .btn-confetti-rain    { background: #ff6b81; }
+    .btn-color-shift      { background: #ff6b6b; }
+    .btn-dizzy-text       { background: #48dbfb; }
+    .btn-secret-message   { background: #feca57; }
+    .btn-fireworks        { background: #ff9ff3; }
+    .btn-new-page         { background: #5f27cd; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-4px); }
+      40% { transform: translateX(4px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    .shake {
+      animation: shake 0.4s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Welcome to Button clickers.io</h1>
+
+    <!-- SOUND EFFECT SECTION -->
+    <div class="section-sound">
+      <h2>Sound Effect!</h2>
+
+      <div class="button-row">
+        <button class="btn btn-click-sound" id="btnClickSound">Click Sound</button>
+        <button class="btn btn-high-beep" id="btnHighBeep">High Beep</button>
+        <button class="btn btn-low-beep" id="btnLowBeep">Low Beep</button>
+      </div>
+
+      <div class="button-row">
+        <button class="btn btn-success-ding" id="btnSuccessDing">Success Ding</button>
+        <button class="btn btn-error-buzz" id="btnErrorBuzz">Error Buzz</button>
+        <button class="btn btn-random-beep" id="btnRandomBeep">Random Beep</button>
+      </div>
+
+      <div class="button-row">
+        <button class="btn btn-play-sound" id="btnPlaySound">Play Sound</button>
+      </div>
+    </div>
+
+    <!-- VISUAL EFFECT SECTION -->
+    <div class="section-visual">
+      <h2>Visual Effect!</h2>
+
+      <div class="button-row">
+        <button class="btn btn-dark-mode" id="btnDarkMode">Dark Mode</button>
+        <button class="btn btn-shake" id="btnShake">Shake!</button>
+        <button class="btn btn-confetti-rain" id="btnConfettiRain">Confetti Rain</button>
+      </div>
+
+      <div class="button-row">
+        <button class="btn btn-color-shift" id="btnColorShift">Color Shift</button>
+        <button class="btn btn-dizzy-text" id="btnDizzyText">Dizzy Text</button>
+        <button class="btn btn-secret-message" id="btnSecretMessage">Secret Message</button>
+      </div>
+
+      <div class="button-row">
+        <button class="btn btn-fireworks" id="btnFireworks">Fireworks!</button>
+        <button class="btn btn-new-page" id="btnNewPage">New Page</button>
+      </div>
+
+      <div id="secretBox" style="margin-top:10px; min-height:20px;"></div>
+    </div>
+  </div>
+
+  <script>
+    /* QUIETER SOUND SYSTEM */
+    function playTone(freq, duration = 200, volume = 0.15) {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "square";
+      osc.frequency.value = freq;
+      gain.gain.value = volume;
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      setTimeout(() => {
+        osc.stop();
+        ctx.close();
+      }, duration);
+    }
+
+    /* SOUND BUTTONS */
+    document.getElementById('btnClickSound').addEventListener('click', () => playTone(600, 120));
+    document.getElementById('btnHighBeep').addEventListener('click', () => playTone(1000, 200));
+    document.getElementById('btnLowBeep').addEventListener('click', () => playTone(300, 250));
+    document.getElementById('btnSuccessDing').addEventListener('click', () => playTone(800, 300));
+    document.getElementById('btnErrorBuzz').addEventListener('click', () => {
+      playTone(200, 100);
+      setTimeout(() => playTone(180, 100), 120);
+    });
+    document.getElementById('btnRandomBeep').addEventListener('click', () => {
+      const freq = 200 + Math.random() * 1000;
+      playTone(freq, 200);
+    });
+    document.getElementById('btnPlaySound').addEventListener('click', () => playTone(440, 200));
+
+    /* REAL FIREWORKS */
+    document.getElementById("btnFireworks").addEventListener("click", () => {
+      for (let i = 0; i < 20; i++) {
+        const spark = document.createElement("div");
+        spark.style.position = "fixed";
+        spark.style.width = "6px";
+        spark.style.height = "6px";
+        spark.style.borderRadius = "50%";
+        spark.style.background = `hsl(${Math.random()*360}, 100%, 60%)`;
+        spark.style.left = innerWidth / 2 + "px";
+        spark.style.top = innerHeight / 2 + "px";
+        spark.style.pointerEvents = "none";
+        spark.style.zIndex = 9999;
+
+        document.body.appendChild(spark);
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 80 + Math.random() * 80;
+
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+
+        spark.animate(
+          [
+            { transform: "translate(0,0)", opacity: 1 },
+            { transform: `translate(${x}px, ${y}px)`, opacity: 0 }
+          ],
+          { duration: 800, easing: "ease-out" }
+        );
+
+        setTimeout(() => spark.remove(), 900);
+      }
+    });
+
+    /* REAL CONFETTI RAIN */
+    document.getElementById("btnConfettiRain").addEventListener("click", () => {
+      for (let i = 0; i < 80; i++) {
+        const piece = document.createElement("div");
+        piece.style.position = "fixed";
+        piece.style.width = "8px";
+        piece.style.height = "14px";
+        piece.style.background = `hsl(${Math.random()*360}, 100%, 60%)`;
+        piece.style.left = Math.random() * innerWidth + "px";
+        piece.style.top = "-20px";
+        piece.style.transform = `rotate(${Math.random()*360}deg)`;
+        piece.style.pointerEvents = "none";
+        piece.style.zIndex = 9999;
+
+        document.body.appendChild(piece);
+
+        piece.animate(
+          [
+            { transform: `translateY(0px) rotate(0deg)` },
+            { transform: `translateY(${innerHeight + 50}px) rotate(360deg)` }
+          ],
+          { duration: 2000 + Math.random()*1000, easing: "linear" }
+        );
+
+        setTimeout(() => piece.remove(), 3200);
+      }
+    });
+
+    /* DARK MODE */
+    let darkMode = false;
+    document.getElementById('btnDarkMode').addEventListener('click', () => {
+      darkMode = !darkMode;
+      if (darkMode) {
+        document.body.style.background = '#121212';
+        document.querySelector('.container').style.background = '#1e1e1e';
+        document.querySelector('.container').style.color = '#ffffff';
+      } else {
+        document.body.style.background = '#f4f4f4';
+        document.querySelector('.container').style.background = '#ffffff';
+        document.querySelector('.container').style.color = '#000000';
+      }
+    });
+
+    /* SHAKE */
+    document.getElementById('btnShake').addEventListener('click', () => {
+      const container = document.querySelector('.container');
+      container.classList.remove('shake');
+      void container.offsetWidth;
+      container.classList.add('shake');
+      setTimeout(() => container.classList.remove('shake'), 400);
+    });
+
+    /* COLOR SHIFT */
+    document.getElementById('btnColorShift').addEventListener('click', () => {
+      const colors = ['#f4f4f4', '#e3f2fd', '#fff3e0', '#fce4ec', '#e8f5e9'];
+      document.body.style.background = colors[Math.floor(Math.random()*colors.length)];
+    });
+
+    /* SECRET MESSAGE */
+    document.getElementById('btnSecretMessage').addEventListener('click', () => {
+      document.getElementById('secretBox').textContent = "You found the secret message!";
+    });
+
+    /* DIZZY TEXT */
+    document.getElementById('btnDizzyText').addEventListener('click', () => {
+      const title = document.querySelector("h1");
+      title.style.transition = "transform 0.2s";
+      title.style.transform = "rotate(5deg)";
+      setTimeout(() => title.style.transform = "rotate(-5deg)", 200);
+      setTimeout(() => title.style.transform = "rotate(0deg)", 400);
+    });
+
+    /* NEW PAGE */
+    document.getElementById('btnNewPage').addEventListener('click', () => {
+      window.open("https://example.com", "_blank");
+    });
+  </script>
+</body>
+</html>
