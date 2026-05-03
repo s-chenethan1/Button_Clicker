@@ -128,6 +128,8 @@
 
       <div class="button-row">
         <button class="btn btn-play-sound" id="btnPlaySound">Play Sound</button>
+        <button class="btn btn-click-sound" id="btnExtraSound1">Extra Sound 1</button>
+        <button class="btn btn-high-beep" id="btnExtraSound2">Extra Sound 2</button>
       </div>
     </div>
 
@@ -150,6 +152,7 @@
       <div class="button-row">
         <button class="btn btn-fireworks" id="btnFireworks">Fireworks!</button>
         <button class="btn btn-new-page" id="btnNewPage">New Page</button>
+        <button class="btn btn-color-shift" id="btnExtraVisual">Extra Visual</button>
       </div>
 
       <div id="secretBox" style="margin-top:10px; min-height:20px;"></div>
@@ -178,6 +181,21 @@
     }
 
     /* SOUND BUTTONS */
+    document.getElementById('btnExtraSound1').addEventListener('click', () => {
+    // quick double click-style sound
+    playTone(700, 100);
+    setTimeout(() => playTone(900, 100), 120);
+    });
+  
+    document.getElementById('btnExtraSound2').addEventListener('click', () => {
+    // rising tone effect
+    let freq = 300;
+    const interval = setInterval(() => {
+      playTone(freq, 80);
+      freq += 150;
+      if (freq > 1200) clearInterval(interval);
+    }, 90);
+    });
     document.getElementById('btnClickSound').addEventListener('click', () => playTone(600, 120));
     document.getElementById('btnHighBeep').addEventListener('click', () => playTone(1000, 200));
     document.getElementById('btnLowBeep').addEventListener('click', () => playTone(300, 250));
@@ -269,6 +287,27 @@
       }
     });
 
+    /* Extra Visual */
+    document.getElementById('btnExtraVisual').addEventListener('click', () => {
+    // flash effect
+    const flash = document.createElement("div");
+    flash.style.position = "fixed";
+    flash.style.top = "0";
+    flash.style.left = "0";
+    flash.style.width = "100%";
+    flash.style.height = "100%";
+    flash.style.background = "white";
+    flash.style.opacity = "0.8";
+    flash.style.zIndex = "9999";
+    flash.style.pointerEvents = "none";
+  
+    document.body.appendChild(flash);
+  
+    setTimeout(() => {
+      flash.remove();
+    }, 150);
+    });
+    
     /* SHAKE */
     document.getElementById('btnShake').addEventListener('click', () => {
       const container = document.querySelector('.container');
