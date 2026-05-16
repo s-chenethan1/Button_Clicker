@@ -113,6 +113,18 @@
     <!-- SOUND EFFECT SECTION -->
     <div class="section-sound">
       <h2>Sound Effect!</h2>
+      
+      <div class="button-row">
+  <button class="btn btn-low-beep" id="btnLaserSound">Laser Sound</button>
+  <button class="btn btn-success-ding" id="btnPowerUp">Power Up</button>
+  <button class="btn btn-error-buzz" id="btnRobotBeep">Robot Beep</button>
+</div>
+
+<div class="button-row">
+  <button class="btn btn-random-beep" id="btnAlienNoise">Alien Noise</button>
+  <button class="btn btn-play-sound" id="btnArcadeTone">Arcade Tone</button>
+  <button class="btn btn-click-sound" id="btnEchoBeep">Echo Beep</button>
+</div>
 
       <div class="button-row">
         <button class="btn btn-click-sound" id="btnClickSound">Click Sound</button>
@@ -136,6 +148,18 @@
     <!-- VISUAL EFFECT SECTION -->
     <div class="section-visual">
       <h2>Visual Effect!</h2>
+      
+      <div class="button-row">
+  <button class="btn btn-dark-mode" id="btnRainbowBg">Rainbow BG</button>
+  <button class="btn btn-shake" id="btnSpinPage">Spin Page</button>
+  <button class="btn btn-confetti-rain" id="btnSnowFall">Snow Fall</button>
+</div>
+
+<div class="button-row">
+  <button class="btn btn-color-shift" id="btnPulseTitle">Pulse Title</button>
+  <button class="btn btn-dizzy-text" id="btnBlurScreen">Blur Screen</button>
+  <button class="btn btn-secret-message" id="btnGlowBox">Glow Box</button>
+</div>
 
       <div class="button-row">
         <button class="btn btn-dark-mode" id="btnDarkMode">Dark Mode</button>
@@ -341,6 +365,151 @@
     document.getElementById('btnNewPage').addEventListener('click', () => {
       window.open("https://example.com", "_blank");
     });
+    
+   /* LASER SOUND */
+document.getElementById('btnLaserSound').addEventListener('click', () => {
+  let freq = 1200;
+  const interval = setInterval(() => {
+    playTone(freq, 40);
+    freq -= 120;
+    if (freq < 200) clearInterval(interval);
+  }, 40);
+});
+
+/* POWER UP */
+document.getElementById('btnPowerUp').addEventListener('click', () => {
+  let freq = 200;
+  const interval = setInterval(() => {
+    playTone(freq, 60);
+    freq += 100;
+    if (freq > 1400) clearInterval(interval);
+  }, 60);
+});
+
+/* ROBOT BEEP */
+document.getElementById('btnRobotBeep').addEventListener('click', () => {
+  playTone(300, 80);
+  setTimeout(() => playTone(600, 80), 100);
+  setTimeout(() => playTone(300, 80), 200);
+});
+
+/* ALIEN NOISE */
+document.getElementById('btnAlienNoise').addEventListener('click', () => {
+  for (let i = 0; i < 6; i++) {
+    setTimeout(() => {
+      playTone(200 + Math.random() * 1200, 80);
+    }, i * 90);
+  }
+});
+
+/* ARCADE TONE */
+document.getElementById('btnArcadeTone').addEventListener('click', () => {
+  playTone(500, 100);
+  setTimeout(() => playTone(700, 100), 120);
+  setTimeout(() => playTone(900, 150), 240);
+});
+
+/* ECHO BEEP */
+document.getElementById('btnEchoBeep').addEventListener('click', () => {
+  playTone(700, 120);
+  setTimeout(() => playTone(700, 120, 0.08), 150);
+  setTimeout(() => playTone(700, 120, 0.04), 300);
+});
+
+/* RAINBOW BACKGROUND */
+document.getElementById('btnRainbowBg').addEventListener('click', () => {
+  const colors = ['red','orange','yellow','green','blue','indigo','violet'];
+  let i = 0;
+
+  const interval = setInterval(() => {
+    document.body.style.background = colors[i];
+    i++;
+
+    if (i >= colors.length) {
+      clearInterval(interval);
+      document.body.style.background = '#f4f4f4';
+    }
+  }, 200);
+});
+
+/* SPIN PAGE */
+document.getElementById('btnSpinPage').addEventListener('click', () => {
+  const container = document.querySelector('.container');
+  container.style.transition = 'transform 1s';
+  container.style.transform = 'rotate(360deg)';
+
+  setTimeout(() => {
+    container.style.transform = 'rotate(0deg)';
+  }, 1000);
+});
+
+/* SNOW FALL */
+document.getElementById('btnSnowFall').addEventListener('click', () => {
+  for (let i = 0; i < 50; i++) {
+    const snow = document.createElement('div');
+
+    snow.style.position = 'fixed';
+    snow.style.width = '10px';
+    snow.style.height = '10px';
+    snow.style.borderRadius = '50%';
+    snow.style.background = 'white';
+    snow.style.left = Math.random() * innerWidth + 'px';
+    snow.style.top = '-20px';
+    snow.style.pointerEvents = 'none';
+    snow.style.zIndex = '9999';
+
+    document.body.appendChild(snow);
+
+    snow.animate(
+      [
+        { transform: 'translateY(0px)' },
+        { transform: `translateY(${innerHeight + 50}px)` }
+      ],
+      {
+        duration: 2000 + Math.random() * 2000,
+        easing: 'linear'
+      }
+    );
+
+    setTimeout(() => snow.remove(), 4000);
+  }
+});
+
+/* PULSE TITLE */
+document.getElementById('btnPulseTitle').addEventListener('click', () => {
+  const title = document.querySelector('h1');
+
+  title.animate(
+    [
+      { transform: 'scale(1)' },
+      { transform: 'scale(1.2)' },
+      { transform: 'scale(1)' }
+    ],
+    {
+      duration: 700
+    }
+  );
+});
+
+/* BLUR SCREEN */
+document.getElementById('btnBlurScreen').addEventListener('click', () => {
+  document.body.style.filter = 'blur(4px)';
+
+  setTimeout(() => {
+    document.body.style.filter = 'blur(0px)';
+  }, 1000);
+});
+
+/* GLOW BOX */
+document.getElementById('btnGlowBox').addEventListener('click', () => {
+  const box = document.querySelector('.container');
+
+  box.style.boxShadow = '0 0 40px #00ffff';
+
+  setTimeout(() => {
+    box.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+  }, 1200);
+});
   </script>
 </body>
 </html>
